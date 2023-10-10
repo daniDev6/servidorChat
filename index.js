@@ -65,7 +65,9 @@ io.on('connection',socket=>{//informacion que esta llegando desde el front
 
 
 
-
+app.get('/',(req,res)=>{
+    res.send('servidor andando correctamente')
+})
 
 
 
