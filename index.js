@@ -28,14 +28,14 @@ io.on('connection',socket=>{//informacion que esta llegando desde el front
         socket.join(data.room)//recibe el dato que envio el front desde join_room
         console.log(`un cliente se ha unido a la sala: ${data.username} en la sala ${data.room}`)
         //Obtener la lista de clientes en la sala
-        setInterval(()=>{
+        
             
             const clientsInRoom = io.sockets.adapter.rooms.get(data.room);
             
             // Enviar la cantidad de usuarios en la sala de regreso al cliente
             const numberOfUsers = clientsInRoom.size;
             socket.to(data.room).emit("room_users_count", { room: data.room, usersCount: numberOfUsers });
-        },1000)
+    
 
         
     })
