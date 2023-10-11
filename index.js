@@ -17,14 +17,17 @@ const io=new Server(server,{
         methods:['GET','POST']
     }
 })
-
+let usuarios=0
 io.on('connection',socket=>{//informacion que esta llegando desde el front
-    //console.log('un cliente se ha conectado')
-    //console.log(`usuario actual: ${socket.id}`)
+    console.log('un cliente se ha conectado')
+    console.log(`usuario actual: ${socket.id}`)
+
+    usuarios+=1
+    console.log(usuarios)
     socket.on("join_room",(data)=>{
         socket.join(data.room)//recibe el dato que envio el front desde join_room
-        //console.log(`un cliente se ha unido a la sala: ${data.username} en la sala ${data.room}`)
-        // Obtener la lista de clientes en la sala
+        console.log(`un cliente se ha unido a la sala: ${data.username} en la sala ${data.room}`)
+        //Obtener la lista de clientes en la sala
         setInterval(()=>{
             
             const clientsInRoom = io.sockets.adapter.rooms.get(data.room);
@@ -34,11 +37,9 @@ io.on('connection',socket=>{//informacion que esta llegando desde el front
             socket.to(data.room).emit("room_users_count", { room: data.room, usersCount: numberOfUsers });
         },1000)
 
-
-
-
-
+        
     })
+    socket.emit('perso_conect',usuarios)
     socket.on("send_message",(data)=>{
         socket.to(data.room).emit("receive_message",data)
         //quiero que envie esta data a determinada sala
